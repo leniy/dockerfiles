@@ -12,16 +12,16 @@ RUN apt-get update \
 	&& rm -rf /var/lib/apt/lists/*
 
 RUN mkdir /etc/service/cacti
-ADD cactiservice.sh /etc/service/cacti/run
+ADD service/cactiservice.sh /etc/service/cacti/run
 RUN chmod +x /etc/service/cacti/run
 
 COPY setmysqluser.sh /sbin/setmysqluser.sh
 RUN chmod +x /sbin/setmysqluser.sh && /bin/bash -c /sbin/setmysqluser.sh && rm /sbin/setmysqluser.sh
 
-COPY cacti.conf /etc/dbconfig-common/cacti.conf
-COPY debian.php /etc/cacti/debian.php
-COPY snmpd.conf /etc/snmp/snmpd.conf
-COPY spine.conf /etc/cacti/spine.conf
+COPY config/cacti.conf /etc/dbconfig-common/cacti.conf
+COPY config/debian.php /etc/cacti/debian.php
+COPY config/snmpd.conf /etc/snmp/snmpd.conf
+COPY config/spine.conf /etc/cacti/spine.conf
 
 EXPOSE 80 161
 
