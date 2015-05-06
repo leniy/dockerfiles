@@ -39,6 +39,9 @@ COPY scripts/sqlbackup.sh /sbin/sqlbackup
 RUN chmod +x /sbin/sqlbackup
 VOLUME /var/backups
 
+#copy website files to www-root
+COPY website/* /var/www/html/
+
 #listen on the specified network ports
 EXPOSE 80 161
 
