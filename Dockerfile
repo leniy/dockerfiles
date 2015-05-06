@@ -32,6 +32,13 @@ COPY config/debian.php /etc/cacti/debian.php
 COPY config/snmpd.conf /etc/snmp/snmpd.conf
 COPY config/spine.conf /etc/cacti/spine.conf
 
+#backup tool
+#use 'docker inspect -f {{.Volumes}} <container-id>' to find where /var/backups maps in host
+#manually start bachup, use ' docker exec <container-id> sqlbackup'
+COPY scripts/sqlbackup.sh /sbin/sqlbackup
+RUN chmod +x /sbin/sqlbackup
+VOLUME /var/backups
+
 #listen on the specified network ports
 EXPOSE 80 161
 
