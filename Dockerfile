@@ -23,7 +23,7 @@ RUN chmod +x /etc/service/mysqld/run \
 			 /etc/service/apache2/run
 
 #set mysql user
-COPY setmysqluser.sh /sbin/setmysqluser.sh
+COPY scripts/setmysqluser.sh /sbin/setmysqluser.sh
 RUN chmod +x /sbin/setmysqluser.sh && /bin/bash -c /sbin/setmysqluser.sh && rm /sbin/setmysqluser.sh
 
 #copy config files
@@ -32,11 +32,12 @@ COPY config/debian.php /etc/cacti/debian.php
 COPY config/snmpd.conf /etc/snmp/snmpd.conf
 COPY config/spine.conf /etc/cacti/spine.conf
 
-#backup tool
+#Backup and restore tools
 #use 'docker inspect -f {{.Volumes}} <container-id>' to find where /var/backups maps in host
-#manually start bachup, use ' docker exec <container-id> sqlbackup'
+#manually start bachup or restore, use ' docker exec <container-id> sqlbackup/sqlrestore'
 COPY scripts/sqlbackup.sh /sbin/sqlbackup
-RUN chmod +x /sbin/sqlbackup
+COPY scripts/sqlrestore.sh /sbin/sqlrestore
+RUN chmod +x /sbin/sqlbackup /sbin/sqlrestore
 VOLUME /var/backups
 
 #copy website files to www-root
