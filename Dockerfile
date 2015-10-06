@@ -1,5 +1,4 @@
-#使用docker上最流行的、接近50万次下载的基础系统
-FROM phusion/baseimage:0.9.16
+FROM phusion/baseimage:0.9.17
 MAINTAINER Leniy Tsan <m@leniy.org>
 
 #Install packages
@@ -45,6 +44,15 @@ VOLUME /var/backups
 
 #Copy website files to www-root
 COPY website/* /var/www/html/
+
+#Install plugins to cacti folder
+COPY plugins/* /usr/share/cacti/site/plugins/
+RUN cd /usr/share/cacti/site/plugins/ \
+    && tar -xvzf monitor-v1.3-1.tgz \
+    && tar -xvzf settings-v0.71-1.tgz \
+    && tar -xvzf thold-v0.5.0.tgz \
+    && tar -xvzf php-weathermap-0.97c.tgz \
+    && rm /usr/share/cacti/site/plugins/*.tgz
 
 #Listen on the specified network ports
 EXPOSE 80 161
