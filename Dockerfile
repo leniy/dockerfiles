@@ -1,14 +1,15 @@
-FROM phusion/baseimage:0.9.17
+FROM phusion/baseimage:0.9.18
 MAINTAINER Leniy Tsan <m@leniy.org>
 
 #Install packages
 #COPY aliyunsources.lst /etc/apt/sources.list
 RUN apt-get update \
-    && DEBIAN_FRONTEND=noninteractive apt-get install -y snmpd cacti cacti-spine \
+    && DEBIAN_FRONTEND=noninteractive apt-get install -y snmpd cacti cacti-spine sendmail php5-gd \
     && apt-get clean \
     && rm -rf /tmp/* \
     && rm -rf /var/tmp/* \
     && rm -rf /var/lib/apt/lists/*
+RUN cp /usr/share/zoneinfo/Asia/Shanghai  /etc/localtime
 
 #Add services
 RUN mkdir /etc/service/mysqld \
@@ -23,7 +24,7 @@ RUN chmod +x /etc/service/mysqld/run \
 
 #Set mysql user && Load configured cacti sql by Leniy, to prevent manually configuration at first visit
 COPY scripts/setmysqluser.sh /sbin/setmysqluser.sh
-COPY scripts/configured_cacti.sql /var/backups/cacti_backups.sql
+COPY scripts/configured_cacti.sql /var/cactibackups/cacti_backups.sql
 RUN chmod +x /sbin/setmysqluser.sh \
     && /bin/bash -c /sbin/setmysqluser.sh \
     && rm /sbin/setmysqluser.sh
@@ -35,12 +36,12 @@ COPY config/snmpd.conf /etc/snmp/snmpd.conf
 COPY config/spine.conf /etc/cacti/spine.conf
 
 #Backup and restore tools
-#use 'docker inspect -f {{.Volumes}} <container-id>' to find where /var/backups maps in host
-#manually start bachup or restore, use ' docker exec <container-id> sqlbackup/sqlrestore'
-COPY scripts/sqlbackup.sh /sbin/sqlbackup
-COPY scripts/sqlrestore.sh /sbin/sqlrestore
-RUN chmod +x /sbin/sqlbackup /sbin/sqlrestore
-VOLUME /var/backups
+#use 'docker inspect -f {{.Volumes}} <container-id>' to find where /var/cactibackups maps in host
+#manually start bachup or restore, use ' docker exec <container-id> cactibackup/cactirestore'
+COPY scripts/cactibackup.sh /sbin/cactibackup
+COPY scripts/cactirestore.sh /sbin/cactirestore
+RUN chmod +x /sbin/cactibackup /sbin/cactirestore
+VOLUME ["/var/cactibackups"]
 
 #Copy website files to www-root
 COPY website/* /var/www/html/
@@ -53,6 +54,7 @@ RUN cd /usr/share/cacti/site/plugins/ \
     && tar -xvzf thold-v0.5.0.tgz \
     && tar -xvzf php-weathermap-0.97c.tgz \
     && rm /usr/share/cacti/site/plugins/*.tgz
+    && chown -R www-data:www-data weathermap/output/ weathermap/configs/
 
 #Listen on the specified network ports
 EXPOSE 80 161

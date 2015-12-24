@@ -22,5 +22,5 @@ mysqladmin -uroot -p$SQL_ROOT_PASSWD reload
 mysqladmin -uroot -p$SQL_ROOT_PASSWD create cacti
 mysql -uroot -p$SQL_ROOT_PASSWD cacti < /usr/share/cacti/conf_templates/cacti.sql
 mysql -uroot -p$SQL_ROOT_PASSWD -e "GRANT ALL ON cacti.* TO cacti@localhost IDENTIFIED BY '$SQL_CACTI_PASSWD'; flush privileges;"
-mysql -ucacti -p$SQL_CACTI_PASSWD cacti < /var/backups/cacti_backups.sql
+mysql -ucacti -p$SQL_CACTI_PASSWD cacti < /var/cactibackups/cacti_backups.sql
 mysqladmin -uroot -p$SQL_ROOT_PASSWD shutdown
