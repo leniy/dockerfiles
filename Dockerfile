@@ -53,7 +53,7 @@ RUN cd /usr/share/cacti/site/plugins/ \
     && tar -xvzf settings-v0.71-1.tgz \
     && tar -xvzf thold-v0.5.0.tgz \
     && tar -xvzf php-weathermap-0.97c.tgz \
-    && rm /usr/share/cacti/site/plugins/*.tgz
+    && rm /usr/share/cacti/site/plugins/*.tgz \
     && chown -R www-data:www-data weathermap/output/ weathermap/configs/
 
 #Listen on the specified network ports
