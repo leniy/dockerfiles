@@ -2,7 +2,11 @@ FROM phusion/baseimage:0.9.18
 MAINTAINER Leniy Tsan <m@leniy.org>
 
 #Install packages
-#COPY aliyunsources.lst /etc/apt/sources.list
+RUN echo "deb http://archive.ubuntu.com/ubuntu/ $(lsb_release -sc) main restricted universe multiverse" >> /etc/apt/sources.list
+RUN echo "deb http://archive.ubuntu.com/ubuntu/ $(lsb_release -sc)-security main restricted universe multiverse" >> /etc/apt/sources.list
+RUN echo "deb http://archive.ubuntu.com/ubuntu/ $(lsb_release -sc)-updates main restricted universe multiverse" >> /etc/apt/sources.list
+RUN echo "deb http://archive.ubuntu.com/ubuntu/ $(lsb_release -sc)-proposed main restricted universe multiverse" >> /etc/apt/sources.list
+RUN echo "deb http://archive.ubuntu.com/ubuntu/ $(lsb_release -sc)-backports main restricted universe multiverse" >> /etc/apt/sources.list
 RUN apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y snmpd cacti cacti-spine sendmail php5-gd \
     && apt-get clean \
