@@ -1,3 +1,6 @@
+[![](https://images.microbadger.com/badges/version/leniy/cacti.svg)](http://microbadger.com/images/leniy/cacti "")
+[![](https://images.microbadger.com/badges/image/leniy/cacti.svg)](http://microbadger.com/images/leniy/cacti "")
+
 # docker-cacti
 
 ## Usage
