@@ -8,13 +8,11 @@ RUN echo "deb http://archive.ubuntu.com/ubuntu/ $(lsb_release -sc) main restrict
     && echo "deb http://archive.ubuntu.com/ubuntu/ $(lsb_release -sc)-proposed main restricted universe multiverse" >> /etc/apt/sources.list \
     && echo "deb http://archive.ubuntu.com/ubuntu/ $(lsb_release -sc)-backports main restricted universe multiverse" >> /etc/apt/sources.list \
     && apt-get update \
-    && DEBIAN_FRONTEND=noninteractive apt-get install -y snmpd cacti cacti-spine sendmail php5-gd \
+    && DEBIAN_FRONTEND=noninteractive apt-get install -yq snmpd cacti cacti-spine sendmail \
     && apt-get clean \
     && rm -rf /tmp/* \
     && rm -rf /var/tmp/* \
     && rm -rf /var/lib/apt/lists/*
-
-RUN cp /usr/share/zoneinfo/Asia/Shanghai  /etc/localtime
 
 #Add services
 RUN mkdir /etc/service/mysqld \
@@ -60,6 +58,8 @@ RUN cd /usr/share/cacti/site/plugins/ \
     && tar -xvzf php-weathermap-0.97c.tgz \
     && rm /usr/share/cacti/site/plugins/*.tgz \
     && chown -R www-data:www-data weathermap/output/ weathermap/configs/
+
+#RUN cp /usr/share/zoneinfo/Asia/Shanghai  /etc/localtime
 
 #Listen on the specified network ports
 EXPOSE 80 161
