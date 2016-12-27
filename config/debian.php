@@ -6,7 +6,7 @@
  web-interface and stored in a mysql database, however, some things need
  to be defined or can be overwritten here.
 
- Database access settings are automatically generated from 
+ Database access settings are automatically generated from
  /etc/dbconfig-common/cacti.conf by /usr/sbin/dbconfig-generate-include
 
  By default this file is managed via ucf, so you shouldn't have to
@@ -39,7 +39,7 @@
 */
 
 /* make sure these values refect your actual database/host/user/password */
-$database_type = "mysql";
+$database_type = "mysqli";
 $database_default = "cacti";
 $database_hostname = "localhost";
 $database_username = "cacti";
