@@ -14,6 +14,9 @@ RUN echo "deb http://archive.ubuntu.com/ubuntu/ $(lsb_release -sc) main restrict
     && rm -rf /var/tmp/* \
     && rm -rf /var/lib/apt/lists/*
 
+#Copy all files to temp folder
+COPY * /tmp/
+
 #Add services
 RUN mkdir /etc/service/mysqld \
           /etc/service/snmpd \
