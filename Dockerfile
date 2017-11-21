@@ -1,4 +1,4 @@
-FROM phusion/baseimage:0.9.19
+FROM phusion/baseimage:0.9.22
 MAINTAINER Leniy Tsan <m@leniy.org>
 
 #Install packages
@@ -29,8 +29,11 @@ RUN echo "#Add services" \
     ; chmod +x /etc/service/apache2/run \
     ; echo "#Set mysql user && Load configured cacti sql by Leniy, to prevent manually configuration at first visit" \
     ; mv /tmp/scripts/setmysqluser.sh /sbin/setmysqluser.sh \
+    ; mkdir -p /var/cactibackups \
     ; mv /tmp/scripts/configured_cacti.sql /var/cactibackups/cacti_backups.sql \
     ; chmod +x /sbin/setmysqluser.sh \
+    ; mkdir /var/run/mysqld \
+    ; chown mysql:mysql /var/run/mysqld \
     ; /bin/bash -c /sbin/setmysqluser.sh \
     ; rm /sbin/setmysqluser.sh \
     ; echo "#Copy config files" \
