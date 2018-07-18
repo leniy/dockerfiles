@@ -14,7 +14,7 @@ RUN set -xe \
     && rm -rf /var/lib/apt/lists/*
 
 RUN set -xe \
-    && curl -fSL "http://jaist.dl.sourceforge.net/project/mantisbt/mantis-stable/2.8.0/mantisbt-2.8.0.tar.gz" -o mantisbt.tar.gz \
+    && curl -fSL "http://jaist.dl.sourceforge.net/project/mantisbt/mantis-stable/2.15.0/mantisbt-2.15.0.tar.gz" -o mantisbt.tar.gz \
     && tar -xz --strip-components=1 -f mantisbt.tar.gz \
     && rm mantisbt.tar.gz
 
