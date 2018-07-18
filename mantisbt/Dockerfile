@@ -5,7 +5,7 @@ RUN a2enmod rewrite
 
 RUN set -xe \
     && apt-get update \
-    && apt-get install -yq libpng12-dev libjpeg-dev libpq-dev libxml2-dev \
+    && apt-get install -yq libpng-dev libjpeg-dev libpq-dev libxml2-dev \
     && docker-php-ext-configure gd --with-png-dir=/usr --with-jpeg-dir=/usr \
     && docker-php-ext-install mbstring mysqli \
     && apt-get clean \
